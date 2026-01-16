@@ -7,7 +7,8 @@ The bun.ts service uses the Elysia.js framework with bun's built-in pgsql withou
 
 First, test both services running on the Windows machine, execute wrk from Linux, run for 20s:
 ## windows-go:
-wrk -t4 -c100 -d20s http://192.168.5.187:8000/api/teacher/list 
+```
+wrk -t4 -c100 -d20s http://192.168.5.187:8000/api/teacher/list
 Running 20s test @ http://192.168.5.187:8000/api/teacher/list
   4 threads and 100 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
@@ -16,7 +17,9 @@ Running 20s test @ http://192.168.5.187:8000/api/teacher/list
   73341 requests in 20.06s, 59.10MB read
 Requests/sec:   3656.04
 Transfer/sec:      2.95MB
+```
 
+```
 wrk -t4 -c150 -d20s http://192.168.5.187:8000/api/teacher/list
 Running 20s test @ http://192.168.5.187:8000/api/teacher/list
   4 threads and 150 connections
@@ -26,8 +29,10 @@ Running 20s test @ http://192.168.5.187:8000/api/teacher/list
   73237 requests in 20.07s, 59.02MB read
 Requests/sec:   3649.30
 Transfer/sec:      2.94MB
+```
 
 ## windows-bun.ts:
+```
 wrk -t4 -c100 -d20s http://192.168.5.187:8001/api/teacher/transform
 Running 20s test @ http://192.168.5.187:8001/api/teacher/transform
   4 threads and 100 connections
@@ -37,7 +42,9 @@ Running 20s test @ http://192.168.5.187:8001/api/teacher/transform
   155071 requests in 20.04s, 73.06MB read
 Requests/sec:   7738.86
 Transfer/sec:      3.65MB
+```
 
+```
 wrk -t4 -c150 -d20s http://192.168.5.187:8001/api/teacher/transform
 Running 20s test @ http://192.168.5.187:8001/api/teacher/transform
   4 threads and 150 connections
@@ -47,6 +54,7 @@ Running 20s test @ http://192.168.5.187:8001/api/teacher/transform
   136897 requests in 20.04s, 64.49MB read
 Requests/sec:   6831.56
 Transfer/sec:      3.22MB
+```
 
 ## conclusion
 The wrk connection numbers are set to 100 and 150. From the above comparison, we can see that bun.ts's QPS is almost twice that of Go, and the average latency is lower than Go. 
@@ -57,6 +65,7 @@ PS2: Both services' logs are written to files but not stdout under normal circum
 
 Test both services running on the Linux machine, execute wrk from Windows WSL, run for 30s:
 ## linux-go:
+```
 wrk -t4 -c100 -d30s http://192.168.5.104:8000/api/teacher/list
 Running 30s test @ http://192.168.5.104:8000/api/teacher/list
   4 threads and 100 connections
@@ -66,7 +75,9 @@ Running 30s test @ http://192.168.5.104:8000/api/teacher/list
   19378 requests in 30.07s, 15.62MB read
 Requests/sec:    644.33
 Transfer/sec:    531.69KB
+```
 
+```
 wrk -t4 -c100 -d30s http://192.168.5.104:8000/api/teacher/list
 Running 30s test @ http://192.168.5.104:8000/api/teacher/list
   4 threads and 100 connections
@@ -76,8 +87,10 @@ Running 30s test @ http://192.168.5.104:8000/api/teacher/list
   19328 requests in 30.50s, 15.58MB read
 Requests/sec:    633.70
 Transfer/sec:    522.92KB
+```
 
 ## linux-bun.ts:
+```
 wrk -t4 -c100 -d30s http://192.168.5.104:8001/api/teacher/transform
 Running 30s test @ http://192.168.5.104:8001/api/teacher/transform
   4 threads and 100 connections
@@ -87,7 +100,9 @@ Running 30s test @ http://192.168.5.104:8001/api/teacher/transform
   76057 requests in 30.56s, 35.83MB read
 Requests/sec:   2488.82
 Transfer/sec:      1.17MB
+```
 
+```
 wrk -t4 -c100 -d30s http://192.168.5.104:8001/api/teacher/transform
 Running 30s test @ http://192.168.5.104:8001/api/teacher/transform
   4 threads and 100 connections
@@ -97,6 +112,7 @@ Running 30s test @ http://192.168.5.104:8001/api/teacher/transform
   75203 requests in 30.68s, 35.43MB read
 Requests/sec:   2451.28
 Transfer/sec:      1.15MB
+```
 
 ## conclusion
 Since pgsql is also on Linux consuming some resources, Go's QPS is very small, only a few hundred. If separated, it would be several thousand. This doesn't affect the conclusion - the conclusion that bun.ts is much faster than Go basically remains unchanged, and since Go's model here is more prone to competing for resources with pgsql on the same machine, it's even slower.
