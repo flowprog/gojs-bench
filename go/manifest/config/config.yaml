@@ -1,0 +1,32 @@
+# https://goframe.org/docs/web/server-config-file-template
+server:
+  address:     ":8000"
+  openapiPath: "/api.json"
+  swaggerPath: "/swagger"
+  enableAuthMiddleware: false
+  production: true
+
+# https://goframe.org/docs/core/glog-config
+logger:
+  level : "all"
+  stdout: false  
+  path: "./logs"
+  file: "gotmpl_{Y-m-d}.log"
+  rotateSize: "100MB"
+  rotateExpire: "30d"
+
+# https://goframe.org/docs/core/gdb-config-file
+database:
+  default:
+    link: "pgsql:postgres:111111@tcp(192.168.5.104:5432)/gotmpl"
+    host: "192.168.5.104"
+    port: "5432"
+    user: "postgres"
+    pass: "111111"
+    name: "gotmpl"
+    type: "pgsql"
+    debug: false
+    charset: "utf8"
+    maxIdle: 20
+    maxOpen: 50
+    maxLifetime: "60s"
